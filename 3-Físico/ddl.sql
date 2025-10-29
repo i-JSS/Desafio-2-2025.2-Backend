@@ -1,0 +1,92 @@
+-- =============================
+-- CRIAÇÃO DO BANCO DETRAN
+-- =============================
+
+CREATE TABLE CATEGORIA (
+    id INT PRIMARY KEY
+);
+
+CREATE TABLE MODELO (
+    id INT PRIMARY KEY
+);
+
+CREATE TABLE PROPRIETARIO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cpf CHAR(11) UNIQUE,
+    telefone VARCHAR(15),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
+    estado CHAR(2),
+    data_de_nascimento DATE,
+    sexo CHAR(1),
+    nome TEXT
+);
+
+CREATE TABLE VEICULO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    placa CHAR(10) UNIQUE,
+    cor CHAR(6),
+    ano YEAR,
+    categoria INT,
+    modelo INT,
+    proprietario INT,
+    CONSTRAINT FK_VEICULO_CATEGORIA FOREIGN KEY (categoria)
+        REFERENCES CATEGORIA (id)
+        ON DELETE RESTRICT,
+    CONSTRAINT FK_VEICULO_MODELO FOREIGN KEY (modelo)
+        REFERENCES MODELO (id)
+        ON DELETE RESTRICT,
+    CONSTRAINT FK_VEICULO_PROPRIETARIO FOREIGN KEY (proprietario)
+        REFERENCES PROPRIETARIO (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE INFRACAO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    preco DECIMAL(10,2)
+);
+
+CREATE TABLE LOCAL (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    latitude DECIMAL(10,6),
+    longitude DECIMAL(10,6)
+);
+
+CREATE TABLE AGENTE (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome TEXT,
+    data_de_contratacao DATE
+);
+
+CREATE TABLE COMETE (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    proprietario INT,
+    infracao INT,
+    data DATE,
+    CONSTRAINT FK_COMETE_PROPRIETARIO FOREIGN KEY (proprietario)
+        REFERENCES PROPRIETARIO (id)
+        ON DELETE SET NULL,
+    CONSTRAINT FK_COMETE_INFRACAO FOREIGN KEY (infracao)
+        REFERENCES INFRACAO (id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE REGISTRO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    agente INT,
+    infracao INT,
+    proprietario INT,
+    local INT,
+    CONSTRAINT FK_REGISTRO_AGENTE FOREIGN KEY (agente)
+        REFERENCES AGENTE (id)
+        ON DELETE NO ACTION,
+    CONSTRAINT FK_REGISTRO_INFRACAO FOREIGN KEY (infracao)
+        REFERENCES INFRACAO (id)
+        ON DELETE NO ACTION,
+    CONSTRAINT FK_REGISTRO_PROPRIETARIO FOREIGN KEY (proprietario)
+        REFERENCES PROPRIETARIO (id)
+        ON DELETE NO ACTION,
+    CONSTRAINT FK_REGISTRO_LOCAL FOREIGN KEY (local)
+        REFERENCES LOCAL (id)
+        ON DELETE NO ACTION
+);
