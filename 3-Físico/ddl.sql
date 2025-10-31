@@ -2,6 +2,9 @@
 -- CRIAÇÃO DO BANCO DETRAN
 -- =============================
 
+CREATE DATABASE detran;
+USE detran;
+
 CREATE TABLE CATEGORIA (
     id INT PRIMARY KEY
 );
