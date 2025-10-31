@@ -2,6 +2,8 @@
 -- CONSULTA DO BANCO DETRAN
 -- =============================
 
+USE detran;
+
 -- A
 SELECT
     v.id AS id_veiculo,
