@@ -2,6 +2,8 @@
 -- POPULAMENTO DO BANCO DETRAN
 -- =============================
 
+USE detran;
+
 INSERT INTO CATEGORIA (id) VALUES
 (10), -- Automóvel
 (20), -- Motocicleta
